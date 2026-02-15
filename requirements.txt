@@ -1,0 +1,38 @@
+# Web Scraping & Browser Automation
+playwright==1.41.1
+playwright-stealth==1.0.6
+
+# Data Validation & Models
+pydantic==2.6.0
+pydantic-settings==2.1.0
+
+# Data Processing
+pandas==2.2.0
+
+# Configuration & Environment
+python-dotenv==1.0.1
+
+# Logging
+loguru==0.7.2
+
+# Retry Logic & Rate Limiting
+tenacity==8.2.3
+
+# Progress Bars
+tqdm==4.66.1
+
+# User Agent Rotation
+fake-useragent==1.4.0
+
+# Language Detection
+langdetect==1.0.9
+
+# API
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+python-multipart==0.0.9
+
+# Testing
+pytest==8.0.0
+pytest-asyncio==0.23.5
+pytest-mock==3.12.0
