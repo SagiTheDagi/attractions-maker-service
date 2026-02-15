@@ -111,12 +111,12 @@ class DataProcessor:
             Completeness score between 0 and 1
         """
         # Define required and optional fields by type
-        common_fields = ['name', 'description', 'city', 'google_maps_url', 'latitude', 'longitude']
+        common_fields = ['name', 'description', 'city', 'google_maps_url', 'lat', 'lng']
         optional_common = ['tags', 'hours', 'images', 'busy_days', 'closed_days', 'recommended_time']
 
         type_specific = {
-            AttractionType.RESTAURANT: ['category', 'price_range', 'dietary_options', 'reservations_link'],
-            AttractionType.ACTIVITY: ['category', 'duration', 'price_range', 'tickets_url'],
+            AttractionType.RESTAURANT: ['category', 'price_range', 'dietary_options', 'tickets_link'],
+            AttractionType.ACTIVITY: ['category', 'duration', 'price_range', 'tickets_link'],
             AttractionType.MALL: ['category'],
             AttractionType.STORE_CHAIN: ['category', 'price_range'],
         }
@@ -158,6 +158,28 @@ class DataProcessor:
         return True
 
     @staticmethod
+    def get_data_quality_info(data: Dict, attraction_type: AttractionType) -> Dict:
+        """
+        Calculate data quality information without modifying the data dict.
+
+        Args:
+            data: Attraction data
+            attraction_type: Type of attraction
+
+        Returns:
+            Dict with completeness score and missing fields
+        """
+        completeness = DataProcessor.calculate_completeness(data, attraction_type)
+
+        important_fields = ['name', 'description', 'city', 'lat', 'lng', 'hours']
+        missing_fields = [field for field in important_fields if field not in data or not data[field]]
+
+        return {
+            'completeness': completeness,
+            'missing_fields': missing_fields
+        }
+
+    @staticmethod
     def add_data_quality_info(data: Dict, attraction_type: AttractionType) -> Dict:
         """
         Add data quality information to the data.
@@ -169,15 +191,5 @@ class DataProcessor:
         Returns:
             Data with quality info added
         """
-        completeness = DataProcessor.calculate_completeness(data, attraction_type)
-
-        # Find missing important fields
-        important_fields = ['name', 'description', 'city', 'latitude', 'longitude', 'hours']
-        missing_fields = [field for field in important_fields if field not in data or not data[field]]
-
-        data['data_quality'] = {
-            'completeness': completeness,
-            'missing_fields': missing_fields
-        }
-
+        data['data_quality'] = DataProcessor.get_data_quality_info(data, attraction_type)
         return data

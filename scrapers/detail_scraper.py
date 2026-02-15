@@ -327,7 +327,7 @@ class DetailScraper:
             hours_button = await self.page.query_selector(SELECTORS["hours_button"]["primary"])
             if hours_button:
                 await hours_button.click()
-                await self.page.wait_for_timeout(1000)
+                await self.page.wait_for_timeout(500)
 
             # Get hours table or content
             hours_element = await self.page.query_selector(SELECTORS["hours_content"]["primary"])
@@ -595,7 +595,7 @@ class DetailScraper:
             photos_button = await self.page.query_selector(SELECTORS["images_container"]["primary"])
             if photos_button:
                 await photos_button.click()
-                await self.page.wait_for_timeout(2000)
+                await self.page.wait_for_timeout(1000)
 
             # Get all image elements
             image_elements = await self.page.query_selector_all(SELECTORS["images"]["primary"])

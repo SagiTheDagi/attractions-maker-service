@@ -115,7 +115,7 @@ class AttractionsScraper:
                     self.output_processor.add_failed_attraction(search_query, "Not found in search")
 
                 # Rate limiting
-                self.rate_limiter.wait()
+                await self.rate_limiter.wait()
 
             except Exception as e:
                 log.error(f"Search failed for {search_item}: {e}")
@@ -169,7 +169,7 @@ class AttractionsScraper:
                 self.output_processor.add_attraction(data)
 
                 # Rate limiting
-                self.rate_limiter.wait()
+                await self.rate_limiter.wait()
                 self.rate_limiter.on_success()
 
                 # Restart browser context periodically (every 20 requests)

@@ -11,6 +11,8 @@ from typing import Dict, Optional
 
 from api.schemas import JobStatus
 from main import AttractionsScraper
+from processors.data_processor import DataProcessor
+from models.enums import AttractionType
 from utils.logger import log
 from config.settings import INPUT_DIR
 
@@ -61,13 +63,17 @@ class ScrapeJob:
         stats = self.scraper.output_processor.get_stats()
         data = self.scraper.output_processor.data
 
-        # Serialize attractions grouped by type
+        # Serialize attractions grouped by type, with data quality info
+        processor = DataProcessor()
         attractions = {}
         for type_key, type_attractions in data.attractions.items():
-            attractions[type_key] = [
-                json.loads(a.model_dump_json(exclude_none=True))
-                for a in type_attractions
-            ]
+            serialized = []
+            for a in type_attractions:
+                entry = json.loads(a.model_dump_json(exclude_none=True))
+                attraction_type = AttractionType(a.type)
+                entry["data_quality"] = processor.get_data_quality_info(entry, attraction_type)
+                serialized.append(entry)
+            attractions[type_key] = serialized
 
         return {
             "metadata": {

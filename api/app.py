@@ -113,19 +113,15 @@ async def scrape_single_url(body: ScrapeUrlRequest):
             inferred = processor.infer_attraction_type(
                 raw_data.get("category"), url
             )
-            if inferred:
-                raw_data["type"] = inferred.value
+            raw_data["type"] = inferred.value if inferred else AttractionType.ACTIVITY.value
 
-        if "type" in raw_data:
-            attraction_type = AttractionType(raw_data["type"])
-            raw_data = processor.add_data_quality_info(raw_data, attraction_type)
+        attraction_type = AttractionType(raw_data["type"])
+        quality_info = processor.get_data_quality_info(raw_data, attraction_type)
 
         # Validate through Pydantic model
-        if "type" in raw_data:
-            attraction = create_attraction(raw_data)
-            data = json.loads(attraction.model_dump_json(exclude_none=True))
-        else:
-            data = raw_data
+        attraction = create_attraction(raw_data)
+        data = json.loads(attraction.model_dump_json(exclude_none=True))
+        data["data_quality"] = quality_info
 
         return ScrapeUrlResponse(data=data)
 

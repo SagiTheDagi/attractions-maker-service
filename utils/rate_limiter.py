@@ -1,8 +1,8 @@
 """
 Rate limiting utilities to avoid bot detection.
 """
+import asyncio
 import random
-import time
 from utils.logger import log
 from config.settings import (
     BASE_DELAY_MIN,
@@ -21,8 +21,8 @@ class RateLimiter:
         self.error_count = 0
         self.delay_multiplier = 1.0
 
-    def wait(self):
-        """Apply delay before next request."""
+    async def wait(self):
+        """Apply delay before next request (non-blocking)."""
         self.request_count += 1
 
         # Determine if we need a long pause
@@ -35,7 +35,7 @@ class RateLimiter:
             delay = base_delay * self.delay_multiplier
 
         log.debug(f"Waiting {delay:.2f}s before next request (multiplier: {self.delay_multiplier:.2f}x)")
-        time.sleep(delay)
+        await asyncio.sleep(delay)
 
     def on_error(self):
         """Increase delay on errors (adaptive)."""

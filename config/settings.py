@@ -22,11 +22,11 @@ LOCALE = "he-IL"
 TIMEZONE = "Asia/Jerusalem"
 
 # Rate limiting settings
-BASE_DELAY_MIN = 2.0  # Minimum delay between requests (seconds)
-BASE_DELAY_MAX = 5.0  # Maximum delay between requests (seconds)
-LONG_PAUSE_INTERVAL = 10  # Make a long pause every N requests
-LONG_PAUSE_MIN = 13  # Minimum long pause duration (seconds)
-LONG_PAUSE_MAX = 27  # Maximum long pause duration (seconds)
+BASE_DELAY_MIN = 1.0  # Minimum delay between requests (seconds)
+BASE_DELAY_MAX = 3.0  # Maximum delay between requests (seconds)
+LONG_PAUSE_INTERVAL = 15  # Make a long pause every N requests
+LONG_PAUSE_MIN = 8  # Minimum long pause duration (seconds)
+LONG_PAUSE_MAX = 15  # Maximum long pause duration (seconds)
 
 # Retry settings
 MAX_RETRIES = 3
@@ -35,7 +35,7 @@ RETRY_MULTIPLIER = 2  # Exponential backoff multiplier
 
 # Timeout settings
 PAGE_LOAD_TIMEOUT = 30000  # Page load timeout (milliseconds)
-ELEMENT_WAIT_TIMEOUT = 10000  # Element wait timeout (milliseconds)
+ELEMENT_WAIT_TIMEOUT = 5000  # Element wait timeout (milliseconds)
 NETWORK_IDLE_TIMEOUT = 5000  # Network idle timeout (milliseconds)
 
 # Scraping settings
