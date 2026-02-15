@@ -43,6 +43,17 @@ output/
 !output/.gitkeep
 *.checkpoint
 
+# input
+input/
+!input/.gitkeep
+
+# tests
+tests/
+!tests/.gitkeep
+
+# Claude
+CLAUDE.md
+
 # Environment variables
 .env
 
